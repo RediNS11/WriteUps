@@ -1,0 +1,29 @@
+WriteUp de: Just a VPN Login
+
+---
+
+1. **What is the ASN number related to the IP?**
+    - *Paso:* Identificar la IP sospechosa en la plataforma del laboratorio y consultar sus metadatos de red (Herramienta de la LAB) para extraer el ASN (`212238`).
+2. **Which service is offered from this IP?**
+    - *Paso:* Analizace los puertos/servicios asociados a esa IP en el reporte de la misma herramienta de la LAB, identificando que el propósito principal o servicio expuesto era de `vpn`.
+3. **What is the filename of the file related to the hash?**
+    - *Paso:* Buscar el hash del archivo y analizarlo en la herramienta del laboratorio para ver y extraer su nombre de archivo original (`zY9sqWs.exe`).
+4. **What is the threat signature that Microsoft assigned to the file?**
+    - *Paso:* Revisar en el informe de análisis del archivo, en la herramienta de la plataforma, específicamente para el fabricante Microsoft, encontrando así la firma:`Trojan:Win32/LummaStealer.PM!MTB`.
+5. **One of the contacted domains is part of a large malicious infrastructure cluster. Based on its HTTPS certificate, how many domains are linked to the same campaign?**
+- *Paso:*
+    - Analizar el hash del archivo utilizando la herramienta del laboratorio y navegar a la sección **File Communication Behavior**.
+    - Identificar y seleccionar un dominio relacionado (por ejemplo, `gadgethgfub.icu`), analizándolo también con la herramienta.
+    - Dirigirse a la sección **HTTPS Certificate Data** y abrir el apartado del certificado más reciente (**Latest certificate HTTPS**).
+    - Copiar los dominios listados en el campo **subject_alternative_name** y guardarlos en un archivo de texto (`.txt`).
+    - Ejecutar un comando en la terminal sobre el archivo de texto para contar el número de líneas, obteniendo el total de dominios vinculados a la misma campaña (`151`).
+6. **The file matches one of the YARA rules made by "kevoreilly". What line is present in the rule's "condition" field?**
+- *Paso:* Buscar en la sección de reglas YARA de la plataforma el creador indicado (`kevoreilly`), abrir el repositorio de GitHub vinculado a la regla de Lumma, buscar la etiqueta `condition:` y copiar exactamente la línea de lógica de detección (`uint16(0) == 0x5a4d and any of them`).
+7. **The file is also mentioned in a threat intel report. What is the title of the report mentioning this hash?**
+- *Paso:* Navegar a la pestaña de *Reports* dentro de la misma interfaz de análisis de la plataforma para leer el nombre exacto del documento asociado (`Behind the Curtain: How Lumma Affiliates Operate`).
+8. **Which team did the author of the malware start collaborating with in early 2024?**
+    - *Paso:* Buscar en el reporte de inteligencia de amenazas menciones sobre asociaciones o colaboraciones del malware Lumma a principios de 2024, identificando el colaborador `GhostSocks`.
+9. **Which mentioned infostealer targets Android systems?**
+    - *Paso:* Filtrar las menciones sobre otros infostealers y herramientas usadas por los afiliados (específicamente el afiliado de México) para identificar cuál de ellos opera o ataca específicamente a dispositivos móviles Android (`CraxsRAT`).
+10. **The report states that the affiliates behind the malware use the services of AnonRDP. Which Mitre ATT&CK sub-technique does this align with?**
+    - *Paso:* Relacionar el servicio mencionado *AnonRDP* (el cual es un proveedor de VPS y servidores privados anónimos) con la tabla de técnicas *MITRE ATT&CK,* la cual era la adquisición de infraestructura de servidores virtuales (`T1583.003`).
